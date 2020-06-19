@@ -15,8 +15,44 @@ Loss_of_taste_or_smell = "Loss_of_taste_or_smell"
 Difficulty_in_Breathing = "Difficulty_in_Breathing"
 Sore_Throat = "Sore_Throat"
 
+vertices_list = [[Contact], [Covid], [None_Symptom], [Diarrhea, Fever, Dry_Cough, Loss_of_taste_or_smell], [Tiredness, Difficulty_in_Breathing, Sore_Throat]]
+
+
+def saveGraphToPDF(file_name: str, Edge_list: list, Is_DAG: bool) -> bool:
+    """
+    A function used to save the graph into PDF file.
+    """
+    from graphviz import Graph
+    from graphviz import Digraph
+
+    if(Is_DAG):
+        dot = Digraph(comment="Target Bayesian Network", format="pdf")
+    else:
+        dot = Graph(comment="Graph", format="pdf")
+
+    for level in vertices_list:
+        with dot.subgraph() as s:
+            s.attr(rank='same')
+            for vertex in level:
+                s.node(vertex)
+    
+    Edge_list.sort()
+    for arc in Edge_list:
+        # print(arc)
+        dot.edge(arc[0], arc[1])
+    # print(dot.source)
+
+    try:
+        dot.render(file_name, view=True)
+    except OSError:
+        print("Permission denied: Saving file to ", file_name)
+        return False
+    else:
+        print("Successfully save Graph into PDF file!")
+        return True
+
 class TargetBayesNet:
-    def __init__(self):
+    def __init__(self, model_path=""):
         """
         Class for generating dataset from pre-defined Bayesian Network.
         """
@@ -113,7 +149,13 @@ class TargetBayesNet:
 
         # Checking if the cpds are valid for the model.
         print("Bayesian Network generated successfully or not: ", self.__covid_model.check_model())
-
+        
+        f_name = ""
+        if(model_path != ""):
+            f_name = model_path+"/"
+        f_name+="targetBN"
+        
+        saveGraphToPDF(f_name, list(self.__covid_model.edges()), True)
 
         # Doing some simple queries on the network
         # Check if there is active trail between the nodes
@@ -142,8 +184,8 @@ class TargetBayesNet:
         inference = BayesianModelSampling(self.__covid_model)
         dataset = inference.forward_sample(size=size, return_type=return_type)
 
-        return dataset
- 
+        return dataset        
+
  
 if __name__== "__main__":
 	generator = TargetBayesNet()

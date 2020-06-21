@@ -1,8 +1,16 @@
+# -*- coding: utf-8 -*-
+# @Filename : training.py
+# @Description: Performing structure learning on the given dataset.
+# @Date : 2020-June
+# @Project: Early detection of Covid-19 using BN (AI Term project)
+# @AUTHOR : Randy
 import pandas as pd
 import os
-import targetBN
 import numpy as np
 import matplotlib.pyplot as plt
+
+import targetBN
+import process
 
 # Each function for structure learning
 # Search method: Hill-Climbing
@@ -94,7 +102,8 @@ access_rights = 0o755
 data_dir = "dataset"
 data_fname = data_dir + "/Covid-19-dataset.pxl"
 model_dir = "model"
-model_name = model_dir + "/Learnt_model"
+graph_name = model_dir + "/Learnt_model"
+model_name = model_dir + "/Learnt_model.bif"
 
 # Generate a dataset or open a stored one
 # size of dataset
@@ -107,7 +116,7 @@ if __name__== "__main__":
         except OSError:
             print("Permission denied: creating directory=>", model_dir)
         else:
-            print("Successfully create directory for dataset!")
+            print("Successfully create directory for storing model!")
 
     if(not os.path.exists(data_fname)):
         if(not os.path.exists(data_dir)):
@@ -116,7 +125,7 @@ if __name__== "__main__":
             except OSError:
                 print("Permission denied: creating directory=>", data_dir)
             else:
-                print("Successfully create directory for dataset!")
+                print("Successfully create directory for storing dataset!")
 
         generator = targetBN.TargetBayesNet(model_path=model_dir)
         dataset = generator.getDataset(sample_size)
@@ -133,7 +142,7 @@ if __name__== "__main__":
 
     edges, progress_list = Hybrid(dataset)
 
-    targetBN.saveGraphToPDF(model_name, list(edges), True)
+    process.saveGraphToPDF(graph_name, list(edges), True)
 
 
     plt.plot(progress_list[0], progress_list[1], 'o-')
@@ -158,23 +167,5 @@ if __name__== "__main__":
     # Checking if the cpds are valid for the model.
     print("Checking if CPDs are valid for model: ", covid_model.check_model())
 
-    # # Probability reasoning-----------------------------------
-    # from pgmpy.inference import VariableElimination
-    # covid_infer = VariableElimination(covid_model)
-
-    # # Computing the probability of bronc given smoke.
-    # q = covid_infer.query(variables=["Covid"], evidence={"Fever": 1})
-    # print(q)
-
-    # q = covid_infer.query(variables=["Covid"], evidence={"Fever": 1, "Difficulty_in_Breathing": 1})
-    # print(q)
-
-    # # Given the result of cancer, find P(+f|+c)
-    # q = covid_infer.query(variables=["Fever"], evidence={"Covid": 1})
-    # print(q)
-
-    # q = covid_infer.query(variables=["Covid"], evidence={})
-    # print(q)
-
-    # q = covid_infer.query(variables=["Covid"], evidence={"Fever": 0, "Difficulty_in_Breathing": 0, "Tiredness": 1, "Dry_Cough": 0})
-    # print(q)
+    # Storing model obtained from structure learning
+    process.saveModel(covid_model, model_name)

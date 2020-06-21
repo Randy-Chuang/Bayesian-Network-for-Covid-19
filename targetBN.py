@@ -1,12 +1,16 @@
-# targetBN.py
-# Description: Generating training data from a target bayesian network created by ourselves. 
+# -*- coding: utf-8 -*-
+# @Filename : targetBN.py
+# @Description: Generating training data from a target bayesian network created by ourselves. 
+# @Date : 2020-June
+# @Project: Early detection of Covid-19 using BN (AI Term project)
+# @AUTHOR : Randy
+
+import process
 
 # Cause and symptoms in the BN.
 Contact = "Contact"
 Covid = "Covid"
-
 None_Symptom = "None_Symptom"
-
 Diarrhea = "Diarrhea"
 Fever = "Fever"
 Dry_Cough = "Dry_Cough"
@@ -15,41 +19,7 @@ Loss_of_taste_or_smell = "Loss_of_taste_or_smell"
 Difficulty_in_Breathing = "Difficulty_in_Breathing"
 Sore_Throat = "Sore_Throat"
 
-vertices_list = [[Contact], [Covid], [None_Symptom], [Diarrhea, Fever, Dry_Cough, Loss_of_taste_or_smell], [Tiredness, Difficulty_in_Breathing, Sore_Throat]]
-
-
-def saveGraphToPDF(file_name: str, Edge_list: list, Is_DAG: bool) -> bool:
-    """
-    A function used to save the graph into PDF file.
-    """
-    from graphviz import Graph
-    from graphviz import Digraph
-
-    if(Is_DAG):
-        dot = Digraph(comment="Target Bayesian Network", format="pdf")
-    else:
-        dot = Graph(comment="Graph", format="pdf")
-
-    for level in vertices_list:
-        with dot.subgraph() as s:
-            s.attr(rank='same')
-            for vertex in level:
-                s.node(vertex)
-    
-    Edge_list.sort()
-    for arc in Edge_list:
-        # print(arc)
-        dot.edge(arc[0], arc[1])
-    # print(dot.source)
-
-    try:
-        dot.render(file_name, view=True)
-    except OSError:
-        print("Permission denied: Saving file to ", file_name)
-        return False
-    else:
-        print("Successfully save Graph into PDF file!")
-        return True
+nodes = [Contact, Covid, None_Symptom, Diarrhea, Fever, Dry_Cough, Tiredness, Loss_of_taste_or_smell, Difficulty_in_Breathing, Sore_Throat]
 
 class TargetBayesNet:
     def __init__(self, model_path=""):
@@ -58,30 +28,35 @@ class TargetBayesNet:
         """
         # Starting with defining the network structure
         # Creating the model as well as the structure (arcs)
+        import numpy as np
         from pgmpy.models import BayesianModel
-        self.__covid_model = BayesianModel([(Contact, Covid), 
-                                        (Covid, None_Symptom), 
-                                        (Covid, Dry_Cough), 
-                                        (Covid, Fever), 
-                                        (Covid, Loss_of_taste_or_smell), 
-                                        (Covid, Diarrhea), 
-                                        (Covid, Difficulty_in_Breathing), 
-                                        (Covid, Sore_Throat), 
-                                        (None_Symptom, Dry_Cough), 
-                                        (None_Symptom, Fever), 
-                                        (None_Symptom, Loss_of_taste_or_smell), 
-                                        (None_Symptom, Diarrhea), 
-                                        (None_Symptom, Difficulty_in_Breathing), 
-                                        (None_Symptom, Sore_Throat), 
-                                        (Dry_Cough, Difficulty_in_Breathing), 
-                                        (Dry_Cough, Sore_Throat), 
-                                        (Dry_Cough, Tiredness), 
-                                        (Fever, Tiredness)])
+        
+        # Define the directed connection of BN
+        edges_list = [(Contact, Covid), 
+                        (Covid, None_Symptom), 
+                        (Covid, Dry_Cough), 
+                        (Covid, Fever), 
+                        (Covid, Loss_of_taste_or_smell), 
+                        (Covid, Diarrhea), 
+                        (Covid, Difficulty_in_Breathing), 
+                        (Covid, Sore_Throat), 
+                        (None_Symptom, Dry_Cough), 
+                        (None_Symptom, Fever), 
+                        (None_Symptom, Loss_of_taste_or_smell), 
+                        (None_Symptom, Diarrhea), 
+                        (None_Symptom, Difficulty_in_Breathing), 
+                        (None_Symptom, Sore_Throat), 
+                        (Dry_Cough, Difficulty_in_Breathing), 
+                        (Dry_Cough, Sore_Throat), 
+                        (Dry_Cough, Tiredness), 
+                        (Fever, Tiredness)]
+
+        # Initialize BN with the connection of directed edgse
+        self.__covid_model = BayesianModel(edges_list)
 
         # Defining the parameters.
         # Specifying the CPD for each node 
         # http://pgmpy.org/factors.html#module-pgmpy.factors.discrete.CPD
-
         # TabularCPD values: for example(3 variables): this node and 2 parents
         # First-dimension: this node 
         # second-dimension: cartesian-product of the values from parents
@@ -150,12 +125,16 @@ class TargetBayesNet:
         # Checking if the cpds are valid for the model.
         print("Bayesian Network generated successfully or not: ", self.__covid_model.check_model())
         
-        f_name = ""
+        graph_file = ""
+        model_file = ""
         if(model_path != ""):
-            f_name = model_path+"/"
-        f_name+="targetBN"
+            graph_file = model_path+"/"
+            model_file = model_path+"/"
+        graph_file+="targetBN"
+        model_file+="targetBN.bif"
         
-        saveGraphToPDF(f_name, list(self.__covid_model.edges()), True)
+        process.saveGraphToPDF(graph_file, list(self.__covid_model.edges()), True)
+        process.saveModel(self.__covid_model, model_file)
 
         # Doing some simple queries on the network
         # Check if there is active trail between the nodes

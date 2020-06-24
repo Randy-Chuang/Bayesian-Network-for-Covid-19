@@ -13,13 +13,13 @@ import matplotlib.pyplot as plt
 # File path
 access_rights = 0o755
 data_dir = "dataset"
-data_fname = data_dir + "/Covid-19-dataset.pxl"
+data_fname = data_dir + "/Covid-19-validation.pxl"
 model_dir = "model"
 model_name = model_dir + "/Learnt_model"
 
 # Generate a dataset or open a stored one
 # size of dataset
-sample_size = 300000
+sample_size = 1000
 
 if __name__== "__main__":
     if(not os.path.exists(model_dir)):
@@ -76,6 +76,9 @@ if __name__== "__main__":
             variables_list = dataset["Covid"].values.tolist()
             evidences_list = dataset.drop(columns=["Covid"]).values.tolist()
             
+            import time
+            start_time = time.time()
+
             confirmed = []
             healthy = []
             for indicator, evidences in zip(variables_list, evidences_list):
@@ -86,19 +89,38 @@ if __name__== "__main__":
                     confirmed.append(q.values[1])
                 else:
                     healthy.append(q.values[1])
+
+            print("--- %s seconds ---" % (time.time() - start_time))
+
             
             import numpy as np
-            import pandas as pd
             import seaborn as sns
             import matplotlib.pyplot as plt
-            from scipy import stats
+
             confirmed = np.array(confirmed)
             healthy = np.array(healthy)
 
-            sns.distplot(confirmed)
-            sns.distplot(healthy)
-            print(len(confirmed))
-            print(len(healthy))
+
+            sns.set(style="white", palette="muted", color_codes=True)
+
+            # Set up the matplotlib figure
+            f, axes = plt.subplots(1, 2, figsize=(10, 5), sharex=True)
+
+            axes[0].title.set_text('Covid-19 patients: '+str(len(confirmed))+' cases')
+            axes[1].title.set_text('Healthy people: '+str(len(healthy))+' cases')
+            axes[0].set(xlabel='Probability of infected by Covid-19 \n(given evidences)', ylabel='Number of cases')
+            axes[1].set(xlabel='Probability of infected by Covid-19 \n(given evidences)', ylabel='Number of cases')
+
+            # Covid-19 patients
+            sns.distplot(confirmed, bins=20, kde=False, rug=True, color="r", ax=axes[0])
+
+            # Healthy people
+            sns.distplot(healthy, bins=20, kde=False, rug=True, color="b", ax=axes[1])
+
+            plt.tight_layout()
+
+            plt.show()
+
 
         else:
             print("Selection out of scope!")

@@ -10,6 +10,8 @@ from pgmpy.models import BayesianModel
 def saveGraphToPDF(file_name: str, Edge_list: list, Is_DAG: bool) -> bool:
     """
     A function used to save the graph into PDF file.
+    Issue: Haven't found how to fix the position of particular vertex 
+            in order to compare different network with identical set of vertices.
     """
     from graphviz import Graph
     from graphviz import Digraph

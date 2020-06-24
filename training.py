@@ -21,31 +21,17 @@ def Hill_Climbing(dataset: pd.DataFrame):
     from pgmpy.models import BayesianModel
 
     bdeu = BDeuScore(dataset, equivalent_sample_size=5)
-    # k2 = K2Score(dataset)
-    # bic = BicScore(dataset)
-
-    # `K2Score`, `BDeuScore`, or `BicScore`
-    # class BDeuScore(StructureScore):
-    # def __init__(self, data, equivalent_sample_size=10, **kwargs):
-
-    # class BicScore(StructureScore):
-    # def __init__(self, data, **kwargs):
-
-    # class K2Score(StructureScore):
-    # def __init__(self, data, **kwargs):
-
     
     hc = HillClimbSearch(dataset, scoring_method=BDeuScore(dataset, equivalent_sample_size=5))
-    iter_list = [2**i for i in range(100)]
-    print(iter_list)
+    iter_list = [2**i for i in range(20)]
+    eval_list = []
     for iteration in iter_list:
-        DAG_connection = hc.estimate(max_iter=iteration)
+        DAG_connection = hc.estimate(tabu_length=10, max_iter=iteration)
         model = BayesianModel(DAG_connection.edges())
         print(bdeu.score(model))
-    # hc = HillClimbSearch(dataset, scoring_method=BicScore(dataset))
-    best_model = hc.estimate()
-    # print(best_model.edges())
-    return best_model.edges()
+        eval_list.append(bdeu.score(model))
+    
+    return model.edges(), [iter_list, eval_list]
 
 
 # Search method: Constraint-based
@@ -140,9 +126,16 @@ if __name__== "__main__":
             
     # print(dataset)
 
+    # Hill-Climbing method 
+    # edges, progress_list = Hill_Climbing(dataset)
+
+    # Hibrid method of Hill-Climbing and constraint-based 
     edges, progress_list = Hybrid(dataset)
 
-    process.saveGraphToPDF(graph_name, list(edges), True)
+    print(edges)
+
+    # Save Bayesian Network into a PDF file
+    # process.saveGraphToPDF(graph_name, list(edges), True)
 
 
     plt.plot(progress_list[0], progress_list[1], 'o-')

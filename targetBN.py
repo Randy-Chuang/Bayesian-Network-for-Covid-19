@@ -133,7 +133,7 @@ class TargetBayesNet:
         graph_file+="targetBN"
         model_file+="targetBN.bif"
         
-        process.saveGraphToPDF(graph_file, list(self.__covid_model.edges()), True)
+        # process.saveGraphToPDF(graph_file, list(self.__covid_model.edges()), True)
         process.saveModel(self.__covid_model, model_file)
 
         # Doing some simple queries on the network

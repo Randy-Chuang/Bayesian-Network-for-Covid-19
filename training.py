@@ -3,7 +3,7 @@
 # @Description: Performing structure learning on the given dataset.
 # @Date : 2020-June
 # @Project: Early detection of Covid-19 using BN (AI Term project)
-# @AUTHOR : Randy
+# @AUTHOR : Randy Chuang
 import pandas as pd
 import os
 import numpy as np
@@ -50,8 +50,7 @@ def Constraint_based(dataset: pd.DataFrame):
     model = est.pdag_to_dag(pdag)
     print("DAG edges:", model.edges())
 
-    # print(est.estimate(significance_level=0.01).edges())
-    print(type(model))
+    return model.edges()
 
 
 # Search method: Hybrid structure learning
@@ -129,8 +128,12 @@ if __name__== "__main__":
     # Hill-Climbing method 
     # edges, progress_list = Hill_Climbing(dataset)
 
+    # Constraint based
+    # edges = Constraint_based(dataset)
+
     # Hibrid method of Hill-Climbing and constraint-based 
     edges, progress_list = Hybrid(dataset)
+
 
     print(edges)
 

@@ -3,7 +3,7 @@
 # @Description: Frequently used function
 # @Date : 2020-June
 # @Project: Early detection of Covid-19 using BN (AI Term project)
-# @AUTHOR : Randy
+# @AUTHOR : Randy Chuang
 from pgmpy.models import BayesianModel
 
 

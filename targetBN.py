@@ -3,7 +3,7 @@
 # @Description: Generating training data from a target bayesian network created by ourselves. 
 # @Date : 2020-June
 # @Project: Early detection of Covid-19 using BN (AI Term project)
-# @AUTHOR : Randy
+# @AUTHOR : Randy Chuang
 
 import process
 

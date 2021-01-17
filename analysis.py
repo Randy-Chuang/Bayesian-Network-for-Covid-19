@@ -3,7 +3,7 @@
 # @Description: Analyzing the chosen model with the dataset.
 # @Date : 2020-June
 # @Project: Early detection of Covid-19 using BN (AI Term project)
-# @AUTHOR : Randy
+# @AUTHOR : Randy Chuang
 import pandas as pd
 import os
 import targetBN

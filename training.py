@@ -87,8 +87,8 @@ access_rights = 0o755
 data_dir = "dataset"
 data_fname = data_dir + "/Covid-19-dataset.pxl"
 model_dir = "model"
-graph_name = model_dir + "/Learnt_model"
-model_name = model_dir + "/Learnt_model.bif"
+graph_name = model_dir + "/Learned_model"
+model_name = model_dir + "/Learned_model.bif"
 
 # Generate a dataset or open a stored one
 # size of dataset

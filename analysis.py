@@ -15,7 +15,7 @@ access_rights = 0o755
 data_dir = "dataset"
 data_fname = data_dir + "/Covid-19-validation.pxl"
 model_dir = "model"
-model_name = model_dir + "/Learnt_model"
+model_name = model_dir + "/Learned_model"
 
 # Generate a dataset or open a stored one
 # size of dataset

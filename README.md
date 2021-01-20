@@ -27,7 +27,7 @@ Term Project - Early detection of COVID-19 with Bayesian Network
 
     With the dataset, we would be able to perform structure learning and try to construct the network connection and the appropriate conditional probability distribution.
 
-- For detailed explanation, see our [project report](https://drive.google.com/file/d/1y2CA0RqRJhCPxCF0tXmQg_BOIbpzY_f8/view?usp=sharing).
+- For detailed explanation, see our [project report](AI.Term.Project.pdf).
 
 
 

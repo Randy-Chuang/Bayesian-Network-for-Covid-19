@@ -5,8 +5,8 @@
 </script>
 
 
-Term Project - Early detection of COVID-19 with Bayesian Network
-====
+# Term Project - Early detection of COVID-19 with Bayesian Network
+
 
 ## About The Project
 

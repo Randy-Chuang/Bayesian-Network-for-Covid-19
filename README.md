@@ -1,12 +1,5 @@
-<script src="//yihui.org/js/math-code.js"></script>
-<!-- Just one possible MathJax CDN below. You may use others. -->
-<script async
-  src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
-
-
-# Term Project - Early detection of COVID-19 with Bayesian Network
-
+Term Project - Early detection of COVID-19 with Bayesian Network
+====
 
 ## About The Project
 
@@ -21,7 +14,9 @@
         
     - Framing Problem:
         We can frame this situation as a probability reasoning with **Bayesian Network** in AI.
-        For example: \\( P({COVID{\text -}19}^+|symptoms) \\) 
+
+        For example: P(COVID-19+|symptoms)
+
         Once we know the symptoms from a person, and then calculate the probability of being infected by COVID-19.
 
 - Methodology
@@ -79,7 +74,3 @@ Simply using makefile target to build the project.
 ](https://www.kaggle.com/iamhungundji/covid19-symptoms-checker)
 - [GNU Make](https://www.gnu.org/software/make/)
 
-
-Hi `$z = x + y$`.
-
-`$$a^2 + b^2 = c^2$$`

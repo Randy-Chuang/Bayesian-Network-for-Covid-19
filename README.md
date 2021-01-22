@@ -15,7 +15,7 @@ Term Project - Early detection of COVID-19 with Bayesian Network
     - Framing Problem:
         We can frame this situation as a probability reasoning with **Bayesian Network** in AI.
 
-        For example: P(COVID-19+|symptoms)
+        For example: <img src="svgs/5ee79900c83d967bba97842d82800fb8.svg?invert_in_darkmode" align=middle width=223.655355pt height=24.6576pt/>
 
         Once we know the symptoms from a person, and then calculate the probability of being infected by COVID-19.
 

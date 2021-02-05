@@ -14,8 +14,8 @@ Term Project - Early detection of COVID-19 with Bayesian Network
         
     - Framing Problem:
         We can frame this situation as a probability reasoning with **Bayesian Network** in AI.
-
-        For example: <img src="svgs/5ee79900c83d967bba97842d82800fb8.svg?invert_in_darkmode" align=middle width=223.655355pt height=24.6576pt/>
+        
+        For example: <img src="svgs/36a8c50c9d2d4cab8dfee65f7ae75c74.svg?invert_in_darkmode" align=middle width=199.8648894pt height=28.5845208pt/> 
 
         Once we know the symptoms from a person, and then calculate the probability of being infected by COVID-19.
 
@@ -29,16 +29,19 @@ Term Project - Early detection of COVID-19 with Bayesian Network
 
     With the dataset, we would be able to perform structure learning and try to construct the network connection and the appropriate conditional probability distribution.
 
-- For detailed explanation, see our [project report](AI.Term.Project.pdf).
+- For detailed explanation, see our [project report](https://drive.google.com/file/d/1y2CA0RqRJhCPxCF0tXmQg_BOIbpzY_f8/view?usp=sharing).
 
 
 
-### Built With
+### Platform and Software
 
-Built mainly with:
-- [Python 3.6.9](https://www.python.org/downloads/release/python-369/)
+Platform: **Ubuntu/Linux**
+
+Softwares:
+- [Python 3](https://www.python.org/downloads/)
 - Python modules: 
     - [pgmpy](https://pypi.org/project/pgmpy/)
+    - [matplotlib](https://matplotlib.org/)
     - Other dependencies.
 - [GNU Make](https://www.gnu.org/software/make/)
 
@@ -54,7 +57,7 @@ Simply using makefile target to build the project.
     ```shell
     $ make all
     ```
-- Building Python 3.6 virtual environment and installing required dependencies.
+- Building Python 3 virtual environment and installing required dependencies.
     ```shell
     $ make build
     ```
@@ -73,4 +76,3 @@ Simply using makefile target to build the project.
 - [Kaggle](https://www.kaggle.com/): [COVID-19 Symptoms Checker
 ](https://www.kaggle.com/iamhungundji/covid19-symptoms-checker)
 - [GNU Make](https://www.gnu.org/software/make/)
-
